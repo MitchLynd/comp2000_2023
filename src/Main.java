@@ -2,34 +2,61 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
+
     public static void main(String[] args) throws Exception {
         Main window = new Main();
-
     }
 
-    class Canvas extends JPanel {
-        public Canvas() {
-            setPreferredSize(new Dimension(720, 720));
+    class Cell {
+        private int x;
+        private int y;
+        private static final int SIZE = 35;
+
+        public Cell(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public void paint(Graphics g) {
+            g.setColor(Color.WHITE);
+            g.fillRect(x, y, SIZE, SIZE);
         }
     }
 
-    @Override
-    public void main
+    class Grid extends JPanel {
+        private static final int GRID_SIZE = 20;
+        private Cell[][] cells;
 
-    paint(Graphics g){
-        for(int i=10; i<710; i+=35){
-            for(int j=10; j<710; j+=35){
-                g.setColor(Color.WHITE);
-                g.fillRect(1, 10, 35, 35);
+        public Grid() {
+            setPreferredSize(new Dimension(720, 720));
+            initializeGrid();
+        }
+
+        private void initializeGrid() {
+            cells = new Cell[GRID_SIZE][GRID_SIZE];
+            for (int i = 0; i < GRID_SIZE; i++) {
+                for (int j = 0; j < GRID_SIZE; j++) {
+                    cells[i][j] = new Cell(i * 35, j * 35);
+                }
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            for (int i = 0; i < GRID_SIZE; i++) {
+                for (int j = 0; j < GRID_SIZE; j++) {
+                    cells[i][j].paint(g);
+                }
             }
         }
     }
 
-    private Main(){
+    private Main() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Canvas canvas = new Canvas();
-        this.setContentPane(canvas);
+        Grid grid = new Grid();
+        this.setContentPane(grid);
         this.pack();
-        this.setVisible(b: true);
+        this.setVisible(true);
     }
 }
